@@ -1,7 +1,7 @@
 
 
 
-# Productivity AI — Personal AI Assistant
+# 🤖 Productivity AI — Personal AI Assistant
 
 <div align="center">
 
@@ -24,33 +24,14 @@
 
 > Dark-themed chat interface inspired by modern AI assistants
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Productivity AI     Personal Assistant   Gemini 2.0 Flash      │
-│  ─────────────       ─────────────────────────────────────────  │
-│  💬 Chat                                                         │
-│  ☑️  Tasks          ┌─────────────────────────────────────────┐ │
-│  ✨ Notes           │ ✓ Note saved                            │ │
-│  🔍 Research        │ Title: Meeting                          │ │
-│  ☀️  Daily Briefing │ Preview: We discussed AI features...    │ │
-│                     │ ✦ Would you like me to summarize this?  │ │
-│  RECENT             └─────────────────────────────────────────┘ │
-│  · Meeting notes                                                 │
-│  · Q4 project ideas  ┌─────────────────────────────────────┐    │
-│  · ML findings       │ 🧠 AI Summary:                      │    │
-│                      │ • Discussed AI-powered features      │    │
-│  Vaishnavi K.        │ • Reviewed project deadlines         │    │
-│  Pro Plan            │ • Identified UI improvements         │    │
-│                      └─────────────────────────────────────┘    │
-│  [ Ask me anything — tasks, notes, research, briefings... ] →   │
-└─────────────────────────────────────────────────────────────────┘
-```
+<img width="1907" height="903" alt="Screenshot 2026-03-30 160932" src="https://github.com/user-attachments/assets/6f55c44b-f169-407f-a56e-cc90b1ac27ac" />
+  
 
 ---
 
 ## 🏗️ Architecture
-```
 
+``` 
 ```
 <img width="1440" height="1102" alt="image" src="https://github.com/user-attachments/assets/08691071-21b8-410c-b246-145fb055fc32" />
  <img width="1440" height="762" alt="image" src="https://github.com/user-attachments/assets/380c247d-f081-4600-90cb-00816a1db690" />  
