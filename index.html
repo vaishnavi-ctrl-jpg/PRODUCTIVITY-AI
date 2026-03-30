@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Productivity AI — Personal Assistant</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #212121;
+  --sidebar: #171717;
+  --surface: #2f2f2f;
+  --hover: #383838;
+  --card: #1c1c1c;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #ececec;
+  --sec: #9e9e9e;
+  --muted: #5e5e5e;
+  --purple: #8b5cf6;
+  --purple-dark: #7c3aed;
+  --purple-msg: #6d4fc4;
+  --teal: #10b981;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --blue: #3b82f6;
+  --r: 12px;
+  --rs: 8px;
+  --rx: 6px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--hover); border-radius: 2px; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 260px;
+  min-width: 260px;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 10px 14px;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px 18px;
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.brand-logo svg { width: 19px; height: 19px; fill: #171717; }
+.brand-name { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+
+.new-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--rs);
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 6px;
+  transition: background 0.12s;
+}
+
+.new-btn:hover { background: var(--surface); }
+.plus-icon { font-size: 18px; line-height: 1; color: var(--sec); }
+
+.nav-section { display: flex; flex-direction: column; gap: 1px; margin-bottom: 4px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: var(--rs);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--sec);
+  transition: all 0.12s;
+  user-select: none;
+}
+
+.nav-item:hover { background: var(--surface); color: var(--text); }
+.nav-item.active { background: var(--surface); color: var(--text); font-weight: 500; }
+.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+
+.divider { height: 1px; background: var(--border); margin: 8px 4px; }
+
+.sec-label {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 6px 12px 4px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.recent-section { flex: 1; overflow-y: auto; }
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px;
+  border-radius: var(--rs);
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--sec);
+  transition: all 0.12s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-item:hover { background: var(--surface); color: var(--text); }
+.recent-item.active { background: var(--surface); color: var(--text); }
+.recent-icon { font-size: 13px; flex-shrink: 0; opacity: 0.7; }
+
+.sidebar-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  margin-top: 8px;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--rs);
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.user-card:hover { background: var(--surface); }
+
+.uav {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  flex-shrink: 0;
+}
+
+.uinfo { flex: 1; min-width: 0; }
+.uname { font-size: 13px; font-weight: 500; color: var(--text); }
+.uplan { font-size: 11px; color: var(--muted); }
+.umenu { color: var(--muted); font-size: 18px; line-height: 1; }
+
+/* ── MAIN ── */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
+
+.topbar {
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.tl { display: flex; align-items: center; gap: 10px; }
+.ttitle { font-size: 16px; font-weight: 600; color: var(--text); }
+
+.model-badge {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  color: var(--sec);
+  background: var(--surface);
+}
+
+.tr { display: flex; align-items: center; gap: 10px; }
+
+.gemini-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 99px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: background 0.12s;
+}
+
+.gemini-btn:hover { background: var(--hover); }
+.gstar { color: var(--purple); font-size: 14px; }
+.tav { width: 34px; height: 34px; border-radius: 50%; background: var(--purple); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: white; cursor: pointer; }
+
+/* ── MESSAGES ── */
+.msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  scroll-behavior: smooth;
+}
+
+.mrow {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 780px;
+}
+
+.mrow.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+  max-width: 65%;
+}
+
+.mav {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  border: 1px solid var(--border2);
+}
+
+.mav-ai { background: #1e1e1e; }
+.mav-ai svg { width: 18px; height: 18px; fill: var(--text); }
+.mav-u { background: var(--purple); color: white; font-size: 12px; font-weight: 600; border-color: transparent; }
+
+.bub-user {
+  background: var(--purple-msg);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 18px 18px 4px 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+/* ── AI CARDS ── */
+.ai-card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 16px 18px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 560px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.check-icon { color: var(--teal); font-size: 16px; }
+
+.card-field {
+  font-size: 13.5px;
+  color: var(--sec);
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+
+.field-label { font-weight: 600; color: var(--text); }
+
+.card-sep { height: 1px; background: var(--border2); margin: 12px 0; }
+
+.card-follow {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--sec);
+}
+
+.follow-star { color: var(--purple); font-size: 14px; }
+
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 6px;
+}
+
+.bullet-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--sec);
+  line-height: 1.6;
+}
+
+.bdot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.plain-ai {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.75;
+  max-width: 600px;
+}
+
+/* ── TYPING ── */
+.typing-wrap {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--r);
+  padding: 14px 18px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  width: fit-content;
+}
+
+.tdot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  animation: tdance 1.2s infinite;
+}
+
+.tdot:nth-child(2) { animation-delay: 0.2s; }
+.tdot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes tdance {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* ── WELCOME ── */
+.welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.wlogo {
+  width: 56px;
+  height: 56px;
+  background: var(--surface);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border2);
+  margin-bottom: 8px;
+}
+
+.wlogo svg { width: 28px; height: 28px; fill: var(--text); }
+.welcome h2 { font-size: 20px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+.welcome p { font-size: 14px; color: var(--sec); line-height: 1.65; max-width: 360px; }
+
+.wchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+  max-width: 520px;
+}
+
+.wchip {
+  font-size: 13px;
+  padding: 9px 16px;
+  border: 1px solid var(--border2);
+  border-radius: 99px;
+  cursor: pointer;
+  color: var(--sec);
+  background: var(--surface);
+  transition: all 0.12s;
+  font-family: 'Inter', sans-serif;
+}
+
+.wchip:hover { background: var(--hover); color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+/* ── INPUT ── */
+.input-area {
+  padding: 14px 24px 20px;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  padding: 8px 8px 8px 16px;
+  transition: border-color 0.15s;
+}
+
+.input-box:focus-within { border-color: rgba(139,92,246,0.5); }
+
+.attach-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: color 0.12s;
+}
+
+.attach-btn:hover { color: var(--sec); }
+
+.minput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  padding: 4px 0;
+}
+
+.minput::placeholder { color: var(--muted); }
+
+.sbtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--purple);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.12s, transform 0.1s;
+}
+
+.sbtn:hover { background: var(--purple-dark); }
+.sbtn:active { transform: scale(0.93); }
+.sbtn:disabled { background: var(--hover); cursor: not-allowed; }
+.sbtn svg { width: 15px; height: 15px; fill: white; }
+
+.err-msg {
+  font-size: 12px;
+  color: var(--red);
+  text-align: center;
+  margin-top: 8px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<div class="sidebar">
+  <div class="brand">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    </div>
+    <span class="brand-name">Productivity AI</span>
+  </div>
+
+  <button class="new-btn" onclick="newSession()">
+    <span class="plus-icon">+</span> New chat
+  </button>
+
+  <div class="nav-section">
+    <div class="nav-item active" onclick="setNav(this)">
+      <span class="nav-icon">💬</span> Chat
+    </div>
+    <div class="nav-item" onclick="setNav(this); fillAndSend('Show all my tasks')">
+      <span class="nav-icon">☑️</span> Tasks
+    </div>
+    <div class="nav-item" onclick="setNav(this); fillAndSend('List all my notes')">
+      <span class="nav-icon">✨</span> Notes
+    </div>
+    <div class="nav-item" onclick="setNav(this); fillAndSend('What is machine learning?')">
+      <span class="nav-icon">🔍</span> Research
+    </div>
+    <div class="nav-item" onclick="setNav(this); fillAndSend('What is my day look like?')">
+      <span class="nav-icon">☀️</span> Daily Briefing
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-label">Recent</div>
+
+  <div class="recent-section">
+    <div class="recent-item active" onclick="fillAndSend('Summarize note Meeting')">
+      <span class="recent-icon">💬</span> Meeting notes summary
+    </div>
+    <div class="recent-item" onclick="fillAndSend('Show Q4 project ideas note')">
+      <span class="recent-icon">💬</span> Q4 project ideas
+    </div>
+    <div class="recent-item" onclick="fillAndSend('What is machine learning research findings?')">
+      <span class="recent-icon">💬</span> ML research paper findings
+    </div>
+    <div class="recent-item" onclick="fillAndSend('Show all high priority tasks')">
+      <span class="recent-icon">💬</span> Tomorrow's priorities
+    </div>
+    <div class="recent-item" onclick="fillAndSend('What is my day look like?')">
+      <span class="recent-icon">💬</span> Weekly planning
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="uav">VK</div>
+      <div class="uinfo">
+        <div class="uname">Vaishnavi K.</div>
+        <div class="uplan">Pro Plan</div>
+      </div>
+      <span class="umenu">⋯</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+  <div class="topbar">
+    <div class="tl">
+      <span class="ttitle">Personal Assistant</span>
+      <span class="model-badge">Gemini 2.0 Flash</span>
+    </div>
+    <div class="tr">
+      <button class="gemini-btn">
+        <span class="gstar">✦</span> Powered by Gemini
+      </button>
+      <div class="tav">VK</div>
+    </div>
+  </div>
+
+  <div class="msgs" id="msgs">
+    <div class="welcome" id="welcome">
+      <div class="wlogo">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      </div>
+      <h2>How can I help you today?</h2>
+      <p>Manage tasks, save notes, do research, or get your daily briefing — just ask.</p>
+      <div class="wchips">
+        <span class="wchip" onclick="fillAndSend('Add a high priority task to submit hackathon project by tomorrow')">+ Add a task</span>
+        <span class="wchip" onclick="fillAndSend('Save a note titled Meeting: we discussed AI features, deadlines, and UI improvements')">Save a note</span>
+        <span class="wchip" onclick="fillAndSend('What is machine learning?')">Search Wikipedia</span>
+        <span class="wchip" onclick="fillAndSend('What is my day look like?')">Daily briefing</span>
+        <span class="wchip" onclick="fillAndSend('Show all my tasks')">View all tasks</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <div class="input-box">
+      <button class="attach-btn" title="Attach file">📎</button>
+      <input
+        class="minput"
+        id="inp"
+        placeholder="Ask me anything — tasks, notes, research, briefings..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"
+        autocomplete="off"
+      />
+      <button class="sbtn" id="sbtn" onclick="send()">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <div class="err-msg" id="err">
+      Could not reach the assistant. Make sure the server is running on port 8080.
+    </div>
+  </div>
+</div>
+
+<script>
+const API = window.location.origin;
+let sid = 'vaishnavi-' + Date.now();
+let busy = false;
+
+function setNav(el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function hideWelcome() {
+  const w = document.getElementById('welcome');
+  if (w) w.remove();
+}
+
+function esc(t) {
+  return String(t)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+function fillAndSend(t) {
+  document.getElementById('inp').value = t;
+  send();
+}
+
+function addUser(t) {
+  hideWelcome();
+  const area = document.getElementById('msgs');
+  const row = document.createElement('div');
+  row.className = 'mrow user';
+  row.innerHTML = `
+    <div class="mav mav-u">VK</div>
+    <div class="bub-user">${esc(t)}</div>
+  `;
+  area.appendChild(row);
+  area.scrollTop = area.scrollHeight;
+}
+
+function showTyping() {
+  hideWelcome();
+  const area = document.getElementById('msgs');
+  const row = document.createElement('div');
+  row.className = 'mrow';
+  row.id = 'trow';
+  row.innerHTML = `
+    <div class="mav mav-ai">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    </div>
+    <div class="typing-wrap">
+      <span class="tdot"></span>
+      <span class="tdot"></span>
+      <span class="tdot"></span>
+    </div>
+  `;
+  area.appendChild(row);
+  area.scrollTop = area.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('trow');
+  if (t) t.remove();
+}
+
+function buildCard(text) {
+  const low = text.toLowerCase();
+
+  // NOTE SAVED
+  if (low.includes('note saved') || low.includes('note_saved') || low.includes('📌 note saved')) {
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+    let fields = '';
+    lines.forEach(l => {
+      const stripped = l.replace(/^[📌✅•\-]\s*/,'');
+      const colon = stripped.indexOf(':');
+      if (colon > 0 && colon < 20) {
+        const key = stripped.slice(0, colon).trim();
+        const val = stripped.slice(colon + 1).trim();
+        if (key && val && key.toLowerCase() !== 'note saved') {
+          fields += `<div class="card-field"><span class="field-label">${esc(key)}:</span> ${esc(val)}</div>`;
+        }
+      }
+    });
+    if (!fields) {
+      fields = `<div class="card-field"><span class="field-label">Status:</span> Note saved successfully</div>`;
+    }
+    return `
+      <div class="ai-card">
+        <div class="card-head"><span class="check-icon">✓</span> Note saved</div>
+        ${fields}
+        <div class="card-sep"></div>
+        <div class="card-follow">
+          <span class="follow-star">✦</span> Would you like me to summarize this?
+        </div>
+      </div>`;
+  }
+
+  // AI SUMMARY / BULLETS
+  if (low.includes('🧠') || low.includes('ai summary') ||
+      (low.includes('summary') && text.includes('•')) ||
+      (low.includes('summarize') && text.includes('•'))) {
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+    const bulletLines = lines.filter(l => l.match(/^[•\-]/));
+    let bullets = bulletLines
+      .map(l => `<li><span class="bdot"></span>${esc(l.replace(/^[•\-]\s*/,''))}</li>`)
+      .join('');
+    if (!bullets) {
+      const nonHead = lines.filter(l => !l.match(/summary|🧠/i) && l.length > 5);
+      bullets = nonHead.slice(0, 5)
+        .map(l => `<li><span class="bdot"></span>${esc(l)}</li>`)
+        .join('');
+    }
+    return `
+      <div class="ai-card">
+        <div class="card-head"><span>🧠</span> AI Summary:</div>
+        <ul class="bullet-list">${bullets}</ul>
+      </div>`;
+  }
+
+  // TASK CREATED
+  if (low.includes('task_created') || low.includes('task created') ||
+      (low.includes('task') && low.includes('created'))) {
+    const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+    let fields = '';
+    lines.forEach(l => {
+      const stripped = l.replace(/^[📌✅•\-]\s*/,'');
+      const colon = stripped.indexOf(':');
+      if (colon > 0 && colon < 20) {
+        const key = stripped.slice(0, colon).trim();
+        const val = stripped.slice(colon + 1).trim();
+        if (val && !key.toLowerCase().includes('task created')) {
+          fields += `<div class="card-field"><span class="field-label">${esc(key)}:</span> ${esc(val)}</div>`;
+        }
+      }
+    });
+    if (!fields) fields = `<div class="card-field">${esc(text).replace(/task[_\s]created[:\s]*/i,'')}</div>`;
+    return `
+      <div class="ai-card">
+        <div class="card-head"><span>✅</span> Task created</div>
+        ${fields}
+      </div>`;
+  }
+
+  // DAILY BRIEFING
+  if (low.includes('daily briefing') || low.includes('☀️') ||
+      (low.includes('briefing') && low.includes('priority'))) {
+    const cleaned = text.replace(/^daily briefing[:\s]*/i,'').trim();
+    return `
+      <div class="ai-card">
+        <div class="card-head"><span>☀️</span> Daily Briefing</div>
+        <div style="color:var(--sec);font-size:13.5px;line-height:1.8;white-space:pre-line">${esc(cleaned)}</div>
+      </div>`;
+  }
+
+  // RESEARCH
+  if (low.includes('🔍') || low.includes('wikipedia') ||
+      (low.includes('source:') && low.includes('http'))) {
+    return `
+      <div class="ai-card">
+        <div class="card-head"><span>🔍</span> Research Result</div>
+        <div style="color:var(--sec);font-size:13.5px;line-height:1.8">${esc(text).replace(/\n/g,'<br>')}</div>
+      </div>`;
+  }
+
+  // TASK LIST
+  if ((low.includes('🔴') || low.includes('🟡') || low.includes('🟢')) && low.includes('priority')) {
+    return `
+      <div class="ai-card">
+        <div class="card-head"><span>📋</span> Your Tasks</div>
+        <div style="color:var(--sec);font-size:13.5px;line-height:1.9;white-space:pre-line">${esc(text)}</div>
+      </div>`;
+  }
+
+  // DEFAULT
+  return `<div class="plain-ai">${esc(text).replace(/\n/g,'<br>')}</div>`;
+}
+
+function addAI(text) {
+  const area = document.getElementById('msgs');
+  const row = document.createElement('div');
+  row.className = 'mrow';
+  row.innerHTML = `
+    <div class="mav mav-ai">
+      <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+    </div>
+    ${buildCard(text)}
+  `;
+  area.appendChild(row);
+  area.scrollTop = area.scrollHeight;
+}
+
+function showErr(v) {
+  document.getElementById('err').style.display = v ? 'block' : 'none';
+}
+
+async function send() {
+  const inp = document.getElementById('inp');
+  const text = inp.value.trim();
+  if (!text || busy) return;
+
+  busy = true;
+  inp.value = '';
+  document.getElementById('sbtn').disabled = true;
+  showErr(false);
+
+  addUser(text);
+  showTyping();
+
+  try {
+    const res = await fetch(API + '/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, session_id: sid })
+    });
+    hideTyping();
+    if (!res.ok) {
+      const e = await res.json().catch(() => ({}));
+      addAI('Something went wrong: ' + (e.detail || 'Unknown error'));
+    } else {
+      const d = await res.json();
+      addAI(d.reply);
+    }
+  } catch (e) {
+    hideTyping();
+    showErr(true);
+    addAI('Could not reach the assistant. Make sure the server is running on port 8080.');
+  }
+
+  busy = false;
+  document.getElementById('sbtn').disabled = false;
+  inp.focus();
+}
+
+function newSession() {
+  sid = 'vaishnavi-' + Date.now();
+  document.getElementById('msgs').innerHTML = `
+    <div class="welcome" id="welcome">
+      <div class="wlogo">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      </div>
+      <h2>New session started!</h2>
+      <p>Fresh start — ready to help you be productive.</p>
+      <div class="wchips">
+        <span class="wchip" onclick="fillAndSend('Add a high priority task to submit hackathon project by tomorrow')">+ Add a task</span>
+        <span class="wchip" onclick="fillAndSend('Save a note titled Meeting: we discussed AI features and deadlines')">Save a note</span>
+        <span class="wchip" onclick="fillAndSend('What is machine learning?')">Search Wikipedia</span>
+        <span class="wchip" onclick="fillAndSend('What is my day look like?')">Daily briefing</span>
+      </div>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>
