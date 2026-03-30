@@ -1,6 +1,3 @@
-
-
-
 # 🤖 Productivity AI — Personal AI Assistant
 
 <div align="center">
@@ -16,13 +13,13 @@
 
 🧠 *One AI. Multiple agents. Zero context switching.*
 
+🔗 **[Live Demo → productivity-ai.onrender.com](https://productivity-ai.onrender.com)**
+
+</div>
+
 ---
 
-🔗 **[Live Demo → productivity-ai.onrender.com](https://productivity-ai.onrender.com)**
- </div> 
-
- ---
- <div> 🚀 Why Productivity AI?
+## 🚀 Why Productivity AI?
 
 > Modern users juggle multiple apps for tasks, notes, research, and planning — creating friction and context switching.
 
@@ -37,20 +34,18 @@ Instead of switching apps, users can simply say:
 And the system handles it seamlessly using coordinated AI agents.
 
 👉 **This project reimagines productivity as a single AI-native experience.**
+
 ---
-</div>
 
-
- <div>  ⚠️ Note: The live demo UI is deployed successfully. 
+⚠️ **Note:** The live demo UI is deployed successfully.  
 Backend orchestration is currently being optimized for stability and latency.
 
 A complete working demo video will be added shortly showcasing:
-- Multi-agent coordination
-- Task + Notes + Research flows
-- End-to-end functionality
+- Multi-agent coordination  
+- Task + Notes + Research flows  
+- End-to-end functionality  
 
 Please refer to the demo video for full system behavior.
-</div>
 
 ---
 
@@ -59,15 +54,15 @@ Please refer to the demo video for full system behavior.
 > Dark-themed chat interface inspired by modern AI assistants
 
 <img width="1907" height="903" alt="Screenshot 2026-03-30 160932" src="https://github.com/user-attachments/assets/6f55c44b-f169-407f-a56e-cc90b1ac27ac" />
-  
 
 ---
 
 ## 🏗️ Architecture
-
-``` 
+```
+Architecture Diagram & Agent Routing Flow 
 ```
 <img width="1440" height="1102" alt="image" src="https://github.com/user-attachments/assets/08691071-21b8-410c-b246-145fb055fc32" />
+
  <img width="1440" height="762" alt="image" src="https://github.com/user-attachments/assets/380c247d-f081-4600-90cb-00816a1db690" />  
  
 ---
@@ -215,7 +210,7 @@ gcloud run deploy productivity-ai \
 - ✅ Session memory across conversation turns
 - ✅ Deployed as API-based system on Render
 ---
----
+
 
 ## 🔮 Future Scope
 
