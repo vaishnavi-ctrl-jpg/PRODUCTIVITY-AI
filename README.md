@@ -14,9 +14,35 @@
 
 **A multi-agent AI productivity system that manages your tasks, notes, research, and daily briefings through a beautiful conversational interface.**
 
+🧠 *One AI. Multiple agents. Zero context switching.*
+
+---
+
 🔗 **[Live Demo → productivity-ai.onrender.com](https://productivity-ai.onrender.com)**
- </div>                                                                                                   <div>  ⚠️ Note: The live demo UI is deployed successfully. 
-Backend integration is currently being finalized.
+ </div> 
+
+ ---
+ <div> 🚀 Why Productivity AI?
+
+> Modern users juggle multiple apps for tasks, notes, research, and planning — creating friction and context switching.
+
+**Productivity AI solves this by unifying everything into one intelligent conversational interface.**
+
+Instead of switching apps, users can simply say:
+
+- “Plan my day”
+- “Save this idea”
+- “Research AI and summarize it”
+
+And the system handles it seamlessly using coordinated AI agents.
+
+👉 **This project reimagines productivity as a single AI-native experience.**
+---
+</div>
+
+
+ <div>  ⚠️ Note: The live demo UI is deployed successfully. 
+Backend orchestration is currently being optimized for stability and latency.
 
 A complete working demo video will be added shortly showcasing:
 - Multi-agent coordination
@@ -188,7 +214,21 @@ gcloud run deploy productivity-ai \
 - ✅ Multi-step workflows (search + save, task + briefing)
 - ✅ Session memory across conversation turns
 - ✅ Deployed as API-based system on Render
+---
+---
 
+## 🔮 Future Scope
+
+- 📅 Google Calendar & reminder integration  
+- 🔔 Real-time notifications  
+- 🧠 Persistent long-term memory across sessions  
+- 🤝 Advanced multi-agent collaboration (planner + executor agents)  
+- 📱 Mobile app version  
+- 🔌 Integration with tools like Notion, Slack, and Gmail  
+
+---
+
+Productivity AI is a step toward fully autonomous personal assistants that can manage a user’s digital life end-to-end.
 ---
 
 <div align="center">
