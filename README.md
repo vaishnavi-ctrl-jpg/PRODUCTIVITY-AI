@@ -15,7 +15,15 @@
 **A multi-agent AI productivity system that manages your tasks, notes, research, and daily briefings through a beautiful conversational interface.**
 
 🔗 **[Live Demo → productivity-ai.onrender.com](https://productivity-ai.onrender.com)**
+ </div>                                                                                                   <div>  ⚠️ Note: The live demo UI is deployed successfully. 
+Backend integration is currently being finalized.
 
+A complete working demo video will be added shortly showcasing:
+- Multi-agent coordination
+- Task + Notes + Research flows
+- End-to-end functionality
+
+Please refer to the demo video for full system behavior.
 </div>
 
 ---
